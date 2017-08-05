@@ -19,7 +19,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $data=Article::orderBy('art_id','desc')->paginate(1);
+        $data=Article::orderBy('art_id','desc')->paginate(10);
 
         return view('admin.article.list',compact('data'));
     }
@@ -65,21 +65,24 @@ class ArticleController extends Controller
         $validator= Validator::make($input,$rules,$massage);
 
         if ($validator->passes()){
-            if($request->file('art_thumb')->isValid()) {
-                $file=$request->file('art_thumb');
-                $realPath = $file->path();   //临时文件的绝对路径
-                $ext = $file->extension();     // 扩展名
-                $filename = date('YmdHis') . mt_rand(1000, 9999) . '.' . $ext;
-                $path = $file->move(public_path() . '\uploads\images', $filename);
-                if($path){
-                    $input['art_thumb'] = '/uploads/images/' . $filename;
-                }else{
-                    return back()->with('errors','图片上传失败');
-                }
+            $file=$request->file('art_thumb');
+            if($file){
+                if($file->isValid()) {
+                    $realPath = $file->path();   //临时文件的绝对路径
+                    $ext = $file->extension();     // 扩展名
+                    $filename = date('YmdHis') . mt_rand(1000, 9999) . '.' . $ext;
+                    $path = $file->move(public_path() . '\uploads\images', $filename);
+                    if($path){
+                        $input['art_thumb'] = '/uploads/images/' . $filename;
+                    }else{
+                        return back()->with('errors','图片上传失败');
+                    }
 
-            }else{
-                return back()->with('errors','图片上传出错');
+                }else{
+                    return back()->with('errors','图片上传出错');
+                }
             }
+
             $input['art_addtime']=time();
             $res=Article::create($input);
             if($res){
@@ -141,27 +144,31 @@ class ArticleController extends Controller
         ];
 
         $validator= Validator::make($input,$rules,$massage);
+
         if ($validator->passes()){
-            if($request->file('art_thumb')->isValid()) {
-                $file=$request->file('art_thumb');
-                $realPath = $file->path();   //临时文件的绝对路径
-                $ext = $file->extension();     // 扩展名
-                $filename = date('YmdHis') . mt_rand(1000, 9999) . '.' . $ext;
-                $path = $file->move(public_path('') . '\uploads\images', $filename);
-                if($path){
-                    $input['art_thumb'] = '/uploads/images/' . $filename;
+            $file=$request->file('art_thumb');
+            if($file){
+                if($file->isValid()) {
+                    $realPath = $file->path();   //临时文件的绝对路径
+                    $ext = $file->extension();     // 扩展名
+                    $filename = date('YmdHis') . mt_rand(1000, 9999) . '.' . $ext;
+                    $path = $file->move(public_path('') . '\uploads\images', $filename);
+                    if($path){
+                        $input['art_thumb'] = '/uploads/images/' . $filename;
+                    }else{
+                        return back()->with('errors','图片上传失败');
+                    }
+
                 }else{
-                    return back()->with('errors','图片上传失败');
+                    return back()->with('errors','图片上传出错');
                 }
 
-            }else{
-                return back()->with('errors','图片上传出错');
             }
             $res=Article::where('art_id',$art_id)->update($input);
             if($res){
                 return redirect('admin/article')->with('msg','修改成功');
             }else{
-                return back()->with('errors','修改失败');
+                return back()->with('article',$input);
             }
         }else{
 

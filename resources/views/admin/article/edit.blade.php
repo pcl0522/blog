@@ -120,7 +120,7 @@
     <script type="text/javascript">
         @if(count($errors->all())>0)
         swal({
-            title: "添加失败",
+            title: "修改失败",
             type: "error",
             text: "@if(is_object($errors)) @foreach($errors->all() as $error) {{$error}} @endforeach @else {{$errors}} @endif",
             timer:1500

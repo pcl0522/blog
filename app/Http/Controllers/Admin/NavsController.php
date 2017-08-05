@@ -19,7 +19,7 @@ class NavsController extends Controller
      */
     public function index()
     {
-        $data=Links::orderBy('nav_sort','asc')->get();
+        $data=Navs::orderBy('nav_sort','asc')->get();
         return view('admin.navs.list')->with('data',$data);
     }
     /**
@@ -28,7 +28,7 @@ class NavsController extends Controller
     public function changeSort(){
 
         $input=Input::all();
-        $link=Links::find($input['nav_id']);
+        $link=Navs::find($input['nav_id']);
         $link->nav_sort=$input['nav_sort'];
         $res=$link->update();
         if($res){
@@ -74,7 +74,7 @@ class NavsController extends Controller
 
         $validator= Validator::make($input,$rules,$massage);
         if ($validator->passes()){
-            $res=Links::create($input);
+            $res=Navs::create($input);
             if($res){
                 return redirect('admin/navs')->with('msg','1');
             }else{
@@ -105,7 +105,7 @@ class NavsController extends Controller
      */
     public function edit($nav_id)
     {
-        $nav=Links::find($nav_id);
+        $nav=Navs::find($nav_id);
         return view('admin.navs.edit',compact('nav'));
     }
 
@@ -130,7 +130,7 @@ class NavsController extends Controller
         $validator= Validator::make($input,$rules,$massage);
         if ($validator->passes()){
 
-            $res=Links::where('nav_id',$nav_id)->update($input);
+            $res=Navs::where('nav_id',$nav_id)->update($input);
             if($res){
                 return redirect('admin/navs')->with('msg','1');
             }else{

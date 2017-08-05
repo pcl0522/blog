@@ -49,8 +49,8 @@
                                         <td class="text-center">
                                             <input type="text" value="{{$v['nav_sort']}}" onchange="changeSort(this.value, {{$v['nav_id']}})" class="form-control" style="width: 36px;padding: 6px;text-align: center;margin: auto">
                                         </td>
-                                        <td>{{$v['nav_name']}}</td>
-                                        <td class="">{{$v['nav_alias']}}</td>
+                                        <td class="text-center">{{$v['nav_name']}}</td>
+                                        <td class="text-center">{{$v['nav_alias']}}</td>
                                         <td class="text-center">{{$v['nav_url']}}</td>
                                         <td class="text-center" class="do">
                                             <a href="javascript:void(0)" onclick="del({{$v['nav_id']}})" title="删除"> <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> </a>

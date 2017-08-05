@@ -49,10 +49,9 @@
                     <li>
                         <a class="J_menuItem" href="{{url('admin/links')}}">友情链接</a>
                     </li>
-                    <li><a class="J_menuItem" href="mail_detail.html">查看邮件</a>
+                    <li><a class="J_menuItem" href="{{url('admin/navs')}}">网站导航</a>
                     </li>
-                    <li><a class="J_menuItem" href="mail_compose.html">写信</a>
-                    </li>
+
                 </ul>
             </li>
         </ul>
